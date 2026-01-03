@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>For You 💌</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef5);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 10px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 210px;
+  cursor: pointer;
+}
+
+.envelope {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ff8fab;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid #ffb3c6;
+}
+
+.tap-text {
+  position: absolute;
+  top: -32px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #c9184a;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: .4; }
+  50% { opacity: 1; }
+  100% { opacity: .4; }
+}
+
+.letter {
+  position: absolute;
+  bottom: -150%;
+  left: 5%;
+  width: 90%;
+  height: 190px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-y: auto;
+  transition: bottom .9s ease;
+}
+
+.container.open .letter {
+  bottom: 10px;
+}
+
+.heart {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎶 Soft instrumental music (auto) -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/16/audio_5c1a3c4f9b.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" onclick="openEnvelope()">
+  <div class="tap-text">Tap to open 💌</div>
+  <div class="envelope"></div>
+
+  <div class="letter">
+    <div id="typedText"></div>
+  </div>
+
+  <div class="heart">💌</div>
+</div>
+
+<script>
+const container = document.querySelector('.container');
+const music = document.getElementById('bgMusic');
+const textEl = document.getElementById('typedText');
+
+const letterText = `
+প্রিয় জান,
+
+কেমন আছো my dear loveliest hubby?
+তোমাকে মিস করা এখন আমার ডেইলি রুটিন।
+সকাল, দুপুর, রাত—হঠাৎ হঠাৎ।
+
+তুমি দূরে আছো ঠিকই,
+কিন্তু আমার মাথার ভেতরে
+তোমার যাতায়াত একদম ফ্রি।
+
+আর হ্যাঁ,
+তোমাকে একটু বকা না দিলে
+আমার শান্তি হয় না।
+
+After all,
+খুনসুটি তো আমাদের অলিখিত চুক্তি।
+আজকাল সব গানের lyrics এই
+আমি তোমাকেই খুঁজে পাই।
+
+তোমার জায়গাটা আমার জীবনে আলাদা।
+দূরত্বেও বদলায় না,
+সময়েও না।
+
+আর শোনো বেড্ডপ,
+আমি তোমাকে ভালোবাসি <3
+
+— তোমার একমাত্র আদরের বউ 🤍
+`;
+
+let i = 0;
+let started = false;
+
+function typeText() {
+  if (i < letterText.length) {
+    textEl.innerHTML += letterText.charAt(i);
+    i++;
+    setTimeout(typeText, 35);
+  }
+}
+
+function openEnvelope() {
+  if (started) return;
+  started = true;
+  container.classList.add('open');
+  music.play().catch(()=>{});
+  typeText();
+}
+
+/* Auto everything */
+setTimeout(openEnvelope, 2500);
+</script>
+
+</body>
+</html>
